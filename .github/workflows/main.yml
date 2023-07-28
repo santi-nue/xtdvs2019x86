@@ -39,6 +39,8 @@ jobs:
             cmake .. -G "Visual Studio 16 2019" -A %BUILD_OPTION% -DwxBUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=%HOMEPATH%/local
             cmake --build . --config %BUILD_TYPE% --target install
             echo %cd%
+            cd ../../../..
+            echo %cd%
             git submodule update --init
             mkdir build
             cd build
