@@ -21,7 +21,7 @@ jobs:
       with:
         repository: gammasoft71/xtd
         ref: 'master'
-        path: main     
+        path: .     
 
 
     - name: Build xtd
@@ -39,6 +39,7 @@ jobs:
             cd ../../../..
             echo %cd%
             rem                         git submodule update --init
+            dir
             mkdir build
             cd build
             cmake .. -G "Visual Studio 16 2019" -A %BUILD_OPTION% -DXTD_BUILD_TESTS_XTD_CORE=OFF -DXTD_BUILD_TESTS_XTD_DRAWING=OFF -DXTD_BUILD_TESTS_XTD_FORMS=OFF -DXTD_BUILD_TESTS_XTD_TUNIT=OFF -DCMAKE_INSTALL_PREFIX=%HOMEPATH%/local
