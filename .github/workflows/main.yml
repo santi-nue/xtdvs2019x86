@@ -26,9 +26,6 @@ jobs:
 
     - name: Build xtd
       run: |
-            echo %cd%
-            cd "$Env:GITHUB_WORKSPACE"
-            echo %cd%
             mkdir build\thirdparty
             cd build\thirdparty
             git clone https://github.com/wxwidgets/wxwidgets.git -b v3.2.2.1 --depth 1
@@ -41,7 +38,7 @@ jobs:
             echo %cd%
             cd ../../../..
             echo %cd%
-            git submodule update --init
+            rem                         git submodule update --init
             mkdir build
             cd build
             cmake .. -G "Visual Studio 16 2019" -A %BUILD_OPTION% -DXTD_BUILD_TESTS_XTD_CORE=OFF -DXTD_BUILD_TESTS_XTD_DRAWING=OFF -DXTD_BUILD_TESTS_XTD_FORMS=OFF -DXTD_BUILD_TESTS_XTD_TUNIT=OFF -DCMAKE_INSTALL_PREFIX=%HOMEPATH%/local
