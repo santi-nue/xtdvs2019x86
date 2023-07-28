@@ -1,0 +1,54 @@
+name: Windows (win32) Release
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  BUILD_OPTION: "Win32"
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        repository: gammasoft71/xtd
+        ref: 'master'
+        path: main     
+
+
+    - name: Build xtd
+      run: |
+            echo %cd%
+            mkdir build\thirdparty
+            cd build\thirdparty
+            git clone https://github.com/wxwidgets/wxwidgets.git -b v3.2.2.1 --depth 1
+            cd wxwidgets
+            git submodule update --init
+            mkdir build_cmake 
+            cd build_cmake
+            cmake .. -G "Visual Studio 16 2019" -A %BUILD_OPTION% -DwxBUILD_SHARED=OFF -DCMAKE_INSTALL_PREFIX=%HOMEPATH%/local
+            cmake --build . --config %BUILD_TYPE% --target install
+            echo %cd%
+            git submodule update --init
+            mkdir build
+            cd build
+            cmake .. -G "Visual Studio 16 2019" -A %BUILD_OPTION% -DXTD_BUILD_TESTS_XTD_CORE=OFF -DXTD_BUILD_TESTS_XTD_DRAWING=OFF -DXTD_BUILD_TESTS_XTD_FORMS=OFF -DXTD_BUILD_TESTS_XTD_TUNIT=OFF -DCMAKE_INSTALL_PREFIX=%HOMEPATH%/local
+            if %ERRORLEVEL% NEQ 0 exit 1
+            cmake --build . --config %BUILD_TYPE% --target install
+            if %ERRORLEVEL% NEQ 0 exit 1
+            cd ..
+            echo %cd%
+      shell: cmd
+            
