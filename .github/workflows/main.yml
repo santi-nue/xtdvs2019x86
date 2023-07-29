@@ -48,7 +48,7 @@ jobs:
             if %ERRORLEVEL% NEQ 0 exit 1
             cd ..
             echo %cd%
-            7z a xtdvs2019x86.zip /Users/runneradmin/local/share/xtd/
+            7z a xtdvs2019x86.zip  D:/a/xtdvs2019x86/xtdvs2019x86/build/
       shell: cmd
 
     - name: upload artifact
